@@ -56,11 +56,8 @@ const setTopDiary = async (req, res) => {
   const { date, id } = req.body;
   const { uuid } = req.headers;
   const datas = await diary.findAll({ where: { date: date, writerId: uuid } });
-  // const toChange = await diary.findOne({ where: { id: id } });
 
   datas.map((i) => i.update({ isTop: i.dataValues.id === id ? true : false }));
-
-  // toChange.update({ isTop: true });
 
   return res.status(200).json(datas.map((i) => i.dataValues));
 };
@@ -73,7 +70,6 @@ const searchDiary = async (req, res) => {
     const datas = await diary.findAll({
       where: {
         content: { [Op.like]: `%${content}%` },
-        isTop: true,
         writerId: uuid,
       },
     });
